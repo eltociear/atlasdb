@@ -21,6 +21,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.errorprone.annotations.MustBeClosed;
 import com.palantir.atlasdb.AtlasDbConstants;
 import com.palantir.atlasdb.keyvalue.TableMappingService;
 import com.palantir.atlasdb.keyvalue.api.BatchColumnRangeSelection;
@@ -230,6 +231,7 @@ public final class TableRemappingKeyValueService extends ForwardingObject implem
         return fullTableNameToBytes;
     }
 
+    @MustBeClosed
     @Override
     public ClosableIterator<RowResult<Value>> getRange(
             TableReference tableRef, RangeRequest rangeRequest, long timestamp) {
@@ -240,6 +242,7 @@ public final class TableRemappingKeyValueService extends ForwardingObject implem
         }
     }
 
+    @MustBeClosed
     @Override
     public ClosableIterator<RowResult<Set<Long>>> getRangeOfTimestamps(
             TableReference tableRef, RangeRequest rangeRequest, long timestamp) {
@@ -250,6 +253,7 @@ public final class TableRemappingKeyValueService extends ForwardingObject implem
         }
     }
 
+    @MustBeClosed
     @Override
     public ClosableIterator<List<CandidateCellForSweeping>> getCandidateCellsForSweeping(
             TableReference tableRef, CandidateCellForSweepingRequest request) {

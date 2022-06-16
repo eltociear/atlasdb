@@ -22,6 +22,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.errorprone.annotations.MustBeClosed;
 import com.palantir.atlasdb.keyvalue.api.BatchColumnRangeSelection;
 import com.palantir.atlasdb.keyvalue.api.CandidateCellForSweeping;
 import com.palantir.atlasdb.keyvalue.api.CandidateCellForSweepingRequest;
@@ -271,7 +272,9 @@ public final class ProfilingKeyValueService implements KeyValueService {
         return maybeLog(delegate::getMetadataForTables, logTime("getMetadataForTables"));
     }
 
+    @MustBeClosed
     @Override
+    @SuppressWarnings("MustBeClosedChecker")
     public ClosableIterator<RowResult<Value>> getRange(
             TableReference tableRef, RangeRequest rangeRequest, long timestamp) {
         return maybeLog(
@@ -279,7 +282,9 @@ public final class ProfilingKeyValueService implements KeyValueService {
                 logTimeAndTableRange("getRange", tableRef, rangeRequest));
     }
 
+    @MustBeClosed
     @Override
+    @SuppressWarnings("MustBeClosedChecker")
     public ClosableIterator<RowResult<Set<Long>>> getRangeOfTimestamps(
             TableReference tableRef, RangeRequest rangeRequest, long timestamp) {
         return maybeLog(
@@ -287,7 +292,9 @@ public final class ProfilingKeyValueService implements KeyValueService {
                 logTimeAndTableRange("getRangeOfTimestamps", tableRef, rangeRequest));
     }
 
+    @MustBeClosed
     @Override
+    @SuppressWarnings("MustBeClosedChecker")
     public ClosableIterator<List<CandidateCellForSweeping>> getCandidateCellsForSweeping(
             TableReference tableRef, CandidateCellForSweepingRequest request) {
         return maybeLog(

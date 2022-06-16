@@ -69,6 +69,7 @@ import com.google.common.io.BaseEncoding;
 import com.google.common.primitives.UnsignedBytes;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.errorprone.annotations.MustBeClosed;
 import com.palantir.atlasdb.AtlasDbConstants;
 import com.palantir.atlasdb.jdbc.config.JdbcDataSourceConfiguration;
 import com.palantir.atlasdb.keyvalue.api.BatchColumnRangeSelection;
@@ -724,7 +725,7 @@ public final class JdbcKeyValueService implements KeyValueService {
                         return getPageWithValues(tableRef, newRange, timestamp);
                     }
                 };
-        return ClosableIterators.wrap(iter.iterator());
+        return ClosableIterators.wrapWithEmptyClose(iter.iterator());
     }
 
     @Override
@@ -749,9 +750,10 @@ public final class JdbcKeyValueService implements KeyValueService {
                         return getPageWithTimestamps(tableRef, newRange, timestamp);
                     }
                 };
-        return ClosableIterators.wrap(iter.iterator());
+        return ClosableIterators.wrapWithEmptyClose(iter.iterator());
     }
 
+    @MustBeClosed
     @Override
     public ClosableIterator<List<CandidateCellForSweeping>> getCandidateCellsForSweeping(
             TableReference tableRef, CandidateCellForSweepingRequest request) {

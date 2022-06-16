@@ -16,6 +16,7 @@
 package com.palantir.atlasdb.keyvalue.api;
 
 import com.google.common.collect.Multimap;
+import com.google.errorprone.annotations.MustBeClosed;
 import com.palantir.atlasdb.metrics.Timed;
 import com.palantir.atlasdb.transaction.api.TransactionManager;
 import com.palantir.common.annotation.Idempotent;
@@ -424,6 +425,7 @@ public interface KeyValueService extends AutoCloseable, AsyncKeyValueService {
      */
     @Idempotent
     @Timed
+    @MustBeClosed
     ClosableIterator<RowResult<Value>> getRange(TableReference tableRef, RangeRequest rangeRequest, long timestamp);
 
     /**
@@ -447,6 +449,7 @@ public interface KeyValueService extends AutoCloseable, AsyncKeyValueService {
     @Idempotent
     @Deprecated
     @Timed
+    @MustBeClosed
     ClosableIterator<RowResult<Set<Long>>> getRangeOfTimestamps(
             TableReference tableRef, RangeRequest rangeRequest, long timestamp) throws InsufficientConsistencyException;
 
@@ -466,6 +469,7 @@ public interface KeyValueService extends AutoCloseable, AsyncKeyValueService {
      * about batching. The caller can always use Iterators.concat() or similar if this is undesired.
      */
     @Timed
+    @MustBeClosed
     ClosableIterator<List<CandidateCellForSweeping>> getCandidateCellsForSweeping(
             TableReference tableRef, CandidateCellForSweepingRequest request);
 

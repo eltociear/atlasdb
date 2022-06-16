@@ -639,7 +639,7 @@ public final class DbKvs extends AbstractKeyValueService implements DbKeyValueSe
     @Override
     public ClosableIterator<RowResult<Value>> getRange(
             TableReference tableRef, RangeRequest rangeRequest, long timestamp) {
-        return ClosableIterators.wrap(getRangeStrategy.getRange(tableRef, rangeRequest, timestamp));
+        return ClosableIterators.wrapWithEmptyClose(getRangeStrategy.getRange(tableRef, rangeRequest, timestamp));
     }
 
     public void setMaxRangeOfTimestampsBatchSize(long newValue) {
@@ -714,13 +714,13 @@ public final class DbKvs extends AbstractKeyValueService implements DbKeyValueSe
                         return getTimestampsPage(tableRef, newRange, timestamp, maxRangeOfTimestampsBatchSize, token);
                     }
                 };
-        return ClosableIterators.wrap(rows.iterator());
+        return ClosableIterators.wrapWithEmptyClose(rows.iterator());
     }
 
     @Override
     public ClosableIterator<List<CandidateCellForSweeping>> getCandidateCellsForSweeping(
             TableReference tableRef, CandidateCellForSweepingRequest request) {
-        return ClosableIterators.wrap(
+        return ClosableIterators.wrapWithEmptyClose(
                 getCandidateCellsForSweepingStrategy.getCandidateCellsForSweeping(tableRef, request));
     }
 
@@ -922,7 +922,7 @@ public final class DbKvs extends AbstractKeyValueService implements DbKeyValueSe
     private Iterator<Map.Entry<Cell, Value>> getRowColumnRange(
             TableReference tableRef, byte[] row, BatchColumnRangeSelection batchColumnRangeSelection, long timestamp) {
         List<byte[]> rowList = ImmutableList.of(row);
-        return ClosableIterators.wrap(
+        return ClosableIterators.wrapWithEmptyClose(
                 new AbstractPagingIterable<
                         Map.Entry<Cell, Value>, TokenBackedBasicResultsPage<Map.Entry<Cell, Value>, byte[]>>() {
                     @Override
