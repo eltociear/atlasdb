@@ -704,6 +704,7 @@ public final class JdbcKeyValueService implements KeyValueService {
         });
     }
 
+    @MustBeClosed
     @Override
     public ClosableIterator<RowResult<Value>> getRange(
             final TableReference tableRef, final RangeRequest rangeRequest, final long timestamp) {
@@ -728,6 +729,7 @@ public final class JdbcKeyValueService implements KeyValueService {
         return ClosableIterators.wrapWithEmptyClose(iter.iterator());
     }
 
+    @MustBeClosed
     @Override
     public ClosableIterator<RowResult<Set<Long>>> getRangeOfTimestamps(
             final TableReference tableRef, final RangeRequest rangeRequest, final long timestamp) {

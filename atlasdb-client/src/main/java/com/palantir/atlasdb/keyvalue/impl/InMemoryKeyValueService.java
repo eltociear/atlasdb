@@ -173,6 +173,7 @@ public class InMemoryKeyValueService extends AbstractKeyValueService {
         return KeyValueServices.getFirstBatchForRangesUsingGetRange(this, tableRef, rangeRequests, timestamp);
     }
 
+    @MustBeClosed
     @Override
     public ClosableIterator<RowResult<Value>> getRange(
             TableReference tableRef, final RangeRequest range, final long timestamp) {
@@ -198,6 +199,7 @@ public class InMemoryKeyValueService extends AbstractKeyValueService {
         });
     }
 
+    @MustBeClosed
     @Override
     public ClosableIterator<RowResult<Set<Long>>> getRangeOfTimestamps(
             TableReference tableRef, final RangeRequest range, final long timestamp) {
@@ -226,6 +228,7 @@ public class InMemoryKeyValueService extends AbstractKeyValueService {
         return new GetCandidateCellsForSweepingShim(this).getCandidateCellsForSweeping(tableRef, request);
     }
 
+    @MustBeClosed
     private <T> ClosableIterator<RowResult<T>> getRangeInternal(
             TableReference tableRef, final RangeRequest range, final ResultProducer<T> resultProducer) {
         ConcurrentNavigableMap<Key, byte[]> tableMap = getTableMap(tableRef).entries;
