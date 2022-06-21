@@ -509,7 +509,7 @@ public final class TracingKeyValueService extends ForwardingObject implements Ke
     private static CloseableTracer startLocalTrace(@CompileTimeConstant final String operation) {
         TraceStatistic original = TraceStatistics.getCurrentAndClear();
 
-        return Tracing.startLocalSpan(
+        return Tracing.startLocalTrace(
                 operation, sink -> sink.statistics(TraceStatistics.getCopyAndRestoreOriginal(original)));
     }
 
@@ -518,7 +518,7 @@ public final class TracingKeyValueService extends ForwardingObject implements Ke
             @CompileTimeConstant final String operation, TableReference tableReference) {
         TraceStatistic original = TraceStatistics.getCurrentAndClear();
 
-        return Tracing.startLocalSpan(operation, sink -> {
+        return Tracing.startLocalTrace(operation, sink -> {
             sink.statistics(TraceStatistics.getCopyAndRestoreOriginal(original));
             sink.tableRef(tableReference);
         });
@@ -529,7 +529,7 @@ public final class TracingKeyValueService extends ForwardingObject implements Ke
             @CompileTimeConstant final String operation, Consumer<TagConsumer> tagTranslator) {
         TraceStatistic original = TraceStatistics.getCurrentAndClear();
 
-        return Tracing.startLocalSpan(operation, sink -> {
+        return Tracing.startLocalTrace(operation, sink -> {
             sink.statistics(TraceStatistics.getCopyAndRestoreOriginal(original));
             tagTranslator.accept(sink);
         });
@@ -540,7 +540,7 @@ public final class TracingKeyValueService extends ForwardingObject implements Ke
             @CompileTimeConstant final String operation, Collection<TableReference> tableReferences) {
         TraceStatistic original = TraceStatistics.getCurrentAndClear();
 
-        return Tracing.startLocalSpan(operation, sink -> {
+        return Tracing.startLocalTrace(operation, sink -> {
             sink.statistics(TraceStatistics.getCopyAndRestoreOriginal(original));
             sink.tableRefs(tableReferences);
         });
